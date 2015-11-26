@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	address = "localhost:70001"
+	address = "localhost:60001"
 )
 
 func main() {
@@ -21,11 +21,12 @@ func main() {
 	defer conn.Close()
 	c := pb.NewPlanetServiceClient(conn)
 
-	ctx = metadata.NewContext(context.Background(), metadata.Pairs("key1", "val1", "key2", "val2"))
+	ctx := metadata.NewContext(context.Background(), metadata.Pairs("key1", "val1", "key2", "val2"))
 
-	r, err := c.PrayerThrows(ctx, &pb.PlanetRequest{Msg: []byte("hello")})
+	stream, err := c.PrayerThrows(ctx)
 	if err != nil {
 		log.Fatalf("could not prayerthrows: %v", err)
 	}
-	log.Printf("receive msg: %s", string(r.Msg))
+	_ = stream
+	//log.Printf("receive msg: %s", string(r.Msg))
 }

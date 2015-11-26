@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
@@ -12,7 +13,7 @@ import (
 )
 
 const (
-	port = ":70001"
+	port = ":60001"
 )
 
 type server struct {
@@ -22,14 +23,14 @@ func (s *server) init() {
 
 }
 
-func (s *server) PrayerThrows(stream pb.PlanetService_PrayerThrowServer) error {
+func (s *server) PrayerThrows(stream pb.PlanetService_PrayerThrowsServer) error {
 	md, ok := metadata.FromContext(stream.Context())
 	if !ok {
 		return errors.New("")
 	}
 
-	println(" md [key1] :%s", md["key1"])
-	println(" md [key2] :%s", md["key2"])
+	fmt.Printf(" md[key1] :%s\n", md["key1"][0])
+	fmt.Printf(" md[key2] :%s\n", md["key2"][0])
 
 	for {
 		in, err := stream.Recv()
@@ -50,7 +51,7 @@ func (s *server) PrayerThrows(stream pb.PlanetService_PrayerThrowServer) error {
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatal("failed to listen: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	ins := &server{}
