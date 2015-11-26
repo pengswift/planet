@@ -56,7 +56,7 @@ var _ grpc.ClientConn
 // Client API for PlanetService service
 
 type PlanetServiceClient interface {
-	PrayerThrow(ctx context.Context, opts ...grpc.CallOption) (PlanetService_PrayerThrowClient, error)
+	PrayerThrows(ctx context.Context, opts ...grpc.CallOption) (PlanetService_PrayerThrowsClient, error)
 }
 
 type planetServiceClient struct {
@@ -67,30 +67,30 @@ func NewPlanetServiceClient(cc *grpc.ClientConn) PlanetServiceClient {
 	return &planetServiceClient{cc}
 }
 
-func (c *planetServiceClient) PrayerThrow(ctx context.Context, opts ...grpc.CallOption) (PlanetService_PrayerThrowClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_PlanetService_serviceDesc.Streams[0], c.cc, "/planet.PlanetService/PrayerThrow", opts...)
+func (c *planetServiceClient) PrayerThrows(ctx context.Context, opts ...grpc.CallOption) (PlanetService_PrayerThrowsClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_PlanetService_serviceDesc.Streams[0], c.cc, "/planet.PlanetService/PrayerThrows", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &planetServicePrayerThrowClient{stream}
+	x := &planetServicePrayerThrowsClient{stream}
 	return x, nil
 }
 
-type PlanetService_PrayerThrowClient interface {
+type PlanetService_PrayerThrowsClient interface {
 	Send(*PlanetRequest) error
 	Recv() (*PlanetResponse, error)
 	grpc.ClientStream
 }
 
-type planetServicePrayerThrowClient struct {
+type planetServicePrayerThrowsClient struct {
 	grpc.ClientStream
 }
 
-func (x *planetServicePrayerThrowClient) Send(m *PlanetRequest) error {
+func (x *planetServicePrayerThrowsClient) Send(m *PlanetRequest) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *planetServicePrayerThrowClient) Recv() (*PlanetResponse, error) {
+func (x *planetServicePrayerThrowsClient) Recv() (*PlanetResponse, error) {
 	m := new(PlanetResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -101,32 +101,32 @@ func (x *planetServicePrayerThrowClient) Recv() (*PlanetResponse, error) {
 // Server API for PlanetService service
 
 type PlanetServiceServer interface {
-	PrayerThrow(PlanetService_PrayerThrowServer) error
+	PrayerThrows(PlanetService_PrayerThrowsServer) error
 }
 
 func RegisterPlanetServiceServer(s *grpc.Server, srv PlanetServiceServer) {
 	s.RegisterService(&_PlanetService_serviceDesc, srv)
 }
 
-func _PlanetService_PrayerThrow_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PlanetServiceServer).PrayerThrow(&planetServicePrayerThrowServer{stream})
+func _PlanetService_PrayerThrows_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(PlanetServiceServer).PrayerThrows(&planetServicePrayerThrowsServer{stream})
 }
 
-type PlanetService_PrayerThrowServer interface {
+type PlanetService_PrayerThrowsServer interface {
 	Send(*PlanetResponse) error
 	Recv() (*PlanetRequest, error)
 	grpc.ServerStream
 }
 
-type planetServicePrayerThrowServer struct {
+type planetServicePrayerThrowsServer struct {
 	grpc.ServerStream
 }
 
-func (x *planetServicePrayerThrowServer) Send(m *PlanetResponse) error {
+func (x *planetServicePrayerThrowsServer) Send(m *PlanetResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *planetServicePrayerThrowServer) Recv() (*PlanetRequest, error) {
+func (x *planetServicePrayerThrowsServer) Recv() (*PlanetRequest, error) {
 	m := new(PlanetRequest)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -140,8 +140,8 @@ var _PlanetService_serviceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "PrayerThrow",
-			Handler:       _PlanetService_PrayerThrow_Handler,
+			StreamName:    "PrayerThrows",
+			Handler:       _PlanetService_PrayerThrows_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

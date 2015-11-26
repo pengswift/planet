@@ -1,11 +1,14 @@
 package main
 
 import (
+	"errors"
+	"io"
 	"log"
 	"net"
 
 	pb "github.com/pengswift/planet/planet"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 const (
@@ -19,7 +22,30 @@ func (s *server) init() {
 
 }
 
-func (s *server) Stream(PlanetService_StreamServer) error
+func (s *server) PrayerThrows(stream pb.PlanetService_PrayerThrowServer) error {
+	md, ok := metadata.FromContext(stream.Context())
+	if !ok {
+		return errors.New("")
+	}
+
+	println(" md [key1] :%s", md["key1"])
+	println(" md [key2] :%s", md["key2"])
+
+	for {
+		in, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+
+		_ = in
+
+	}
+
+	return nil
+}
 
 func main() {
 	lis, err := net.Listen("tcp", port)
