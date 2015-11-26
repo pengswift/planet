@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package planet;
+
+message PlanetRequest {
+    bytes msg = 1;
+}
+
+message PlanetResponse {
+    bytes msg = 1;
+}
+
+service PlanetService {
+    rpc Stream(stream PlanetRequest) returns (stream PlanetResponse);  
+}
