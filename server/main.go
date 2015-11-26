@@ -19,6 +19,8 @@ func (s *server) init() {
 
 }
 
+func (s *server) Stream(PlanetService_StreamServer) error
+
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {

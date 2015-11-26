@@ -11,5 +11,5 @@ message PlanetResponse {
 }
 
 service PlanetService {
-    rpc Stream(stream PlanetRequest) returns (stream PlanetResponse);  
+    rpc PrayerThrow(stream PlanetRequest) returns (stream PlanetResponse);  
 }
